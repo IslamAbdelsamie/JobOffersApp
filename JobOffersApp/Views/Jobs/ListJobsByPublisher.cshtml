@@ -1,0 +1,93 @@
+﻿@model IEnumerable<JobOffersApp.Models.Jobs>
+
+@{
+    ViewBag.Title = "Posted Jobs";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@if (TempData["SM"] != null)
+{
+    <div class="alert alert-success">@TempData["SM"]</div>
+}
+@if (!Model.Any())
+{
+    <h1 class="text-center">There is no Posted Jobs</h1>
+}
+else
+{
+
+
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Image
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Specialization
+            </th>
+            <th>
+                Publish Date
+            </th>
+            <th>
+                Applicants
+            </th>
+            
+            <th>Edit/Delete</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobDescription)
+                </td>
+                <td>
+                    <img src="@Url.Content(item.JobImage)" width="50" height="50" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Categories.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Specialization.SpecializationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PublishDate)
+                </td>
+                <td>
+                    @Html.ActionLink("View Applicants", "ListJobByApplicant" , new { id = item.Id})
+                </td>
+                
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "delete" })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $(function () {
+            $(".delete").click(function () {
+                if (!confirm("Are You Sure You Want To Delete This Job?")) {
+                    return false;
+                }
+            });
+        });
+    });
+</script>

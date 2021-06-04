@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account",new {area = "" } ,FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+        <li class="menu-has-children"><a href="">Hello , @User.Identity.Name</a>
+        <ul>
+            @if (User.IsInRole("Publisher"))
+            {
+                <li>
+                    @Html.ActionLink("Post New Job","Create","Jobs")
+                </li>
+                <li>
+                    @Html.ActionLink("Your Posted Jobs", "ListJobsByPublisher", "Jobs")
+                </li>
+            }
+            @if (User.IsInRole("Job Seeker"))
+            {
+                <li>
+                    @Html.ActionLink("Your Jobs", "ListJobs", "JobSeeker")
+                </li>
+                
+            }
+            <li>
+                @Html.ActionLink("Edit Profile", "EditProfile","Account")
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Sign Out</a></li>
+        </ul>
+    </li>
+    }
+
+}
+else
+{
+    <li>@Html.ActionLink("SignUp", "Register", "Account", new { Area = ""}, new { @class = "ticker-btn", id = "registerLink"})</li>
+    <li>@Html.ActionLink("Login", "Login", "Account", new { Area = "" }, new { @class = "ticker-btn", id = "loginLink"})</li>
+}

@@ -1,0 +1,55 @@
+﻿@model JobOffersApp.Models.CVsTable
+
+@{
+    ViewBag.Title = "Edit CV";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@if (TempData["SM"] != null)
+{
+    <div class="alert alert-success">@TempData["SM"]</div>
+}
+@using (Html.BeginForm("EditCV", "JobSeeker", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="file" name="CVfile" id="CVfile" required />
+            </div>
+            <p class="text-danger" id="error">The extension of the file is wrong</p>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update" class="btn btn-default" id="save"/>
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#error").fadeOut();
+        $(function () {
+            $("#save").click(function () {
+                var fileName = document.getElementById("CVfile").value;
+                var extension = fileName.substr(fileName.lastIndexOf('.') + 1);
+                var ValidExtension = ['docx', 'pdf'];
+                if ($.inArray(extension, ValidExtension) == -1) {
+                    $("#error").fadeIn();
+                    return false;
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<JobOffersApp.Models.Specialization>
+
+@{
+    /**/
+
+    ViewBag.Title = "Specializations";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<p>
+    @Html.ActionLink("Add New Specialization", "Create",null,new {@class = "btn btn-primary" })
+</p>
+@if (TempData["SM"] != null)
+{
+    <div class="alert alert-success">@TempData["SM"]</div>
+}
+@if (!Model.Any())
+{
+    <h1 class="text-center">There is no Specialization</h1>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecializationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecializationImage)
+            </th>
+            <th>Edit/Delete</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpecializationName)
+            </td>
+            <td>
+                <img src="@Url.Content(item.SpecializationImage)" alt="Image" width="50" height="50" />
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "delete" })
+            </td>
+        </tr>
+        }
+    </table>
+}
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(function () {
+            $(".delete").click(function () {
+                if (!confirm("Are you sure you want to delete this specialization?")) {
+                    return false;
+                }
+            });
+        });
+    });
+</script>

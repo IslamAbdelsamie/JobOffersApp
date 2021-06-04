@@ -1,0 +1,52 @@
+﻿@model IEnumerable<JobOffersApp.Models.Jobs>
+
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@if (!Model.Any())
+{
+    <h1 class="text-center">There is no jobs in this Category</h1>
+}
+else
+{
+    <section class="post-area section-gap">
+        <div class="container">
+            <div class="row justify-content-center d-flex">
+                <div class="col-lg-8 post-list">
+                    @foreach (var item in Model)
+                    {
+                        <div class="single-post d-flex flex-row">
+                            <div class="thumb">
+                                <img src="@Url.Content(item.JobImage)" alt="" height="100" width="100">
+                                <ul class="tags">
+                                    <li>
+                                        @item.Categories.CategoryName
+                                    </li>
+                                    <li>
+                                        @item.Specialization.SpecializationName
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="details">
+                                <div class="title d-flex flex-row justify-content-between">
+                                    <div class="titles">
+                                        <a href="~/Jobs/Details/@item.Id"><h4>@item.JobName</h4></a>
+                                    </div>
+
+                                </div>
+
+                                <p>
+                                    @item.JobDescription
+                                </p>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+}

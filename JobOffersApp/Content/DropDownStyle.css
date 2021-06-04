@@ -1,0 +1,18 @@
+﻿.input100UserType {
+    font-family: Poppins-SemiBold;
+    font-size: 18px;
+    color: #fff;
+    line-height: 1.2;
+    display: block;
+    width: 100%;
+    height: 52px;
+    background: transparent;
+    padding: 0 5px;
+    border:none;
+    
+}
+
+
+option {
+    background-color: #a64dff;
+}

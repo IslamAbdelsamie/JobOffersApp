@@ -1,0 +1,65 @@
+﻿@model JobOffersApp.ViewModels.JobsApplicantViewModel
+@using Microsoft.AspNet.Identity
+@{
+    /**/
+
+    ViewBag.Title = "Job Applicants";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+@if (!Model.applyForJobs.Any())
+{
+    <h1 class="text-center">No one applied for this job</h1>
+}
+else
+{
+    <table class="table">
+        <tr>
+
+            <th>
+                Email
+            </th>
+            <th>
+                Message
+            </th>
+            <th>
+                Applied Date
+            </th>
+            <th>
+                CV
+            </th>
+        </tr>
+
+        @foreach (var item in Model.applyForJobs)
+        {
+            <tr>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobMessage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppliedDate)
+                </td>
+                <td>
+                    <a href="@Url.Content(item.CVsTable.CV)">Download CV</a>
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+@if (User.IsInRole("Admin"))
+{
+    @Html.ActionLink("Return to the list", "Index")
+}
+else if (User.IsInRole("Publisher"))
+{
+    @Html.ActionLink("Return to the list", "ListJobsByPublisher")
+}
+

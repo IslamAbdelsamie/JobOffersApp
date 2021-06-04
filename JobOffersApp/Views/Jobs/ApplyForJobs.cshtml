@@ -1,0 +1,37 @@
+﻿@model JobOffersApp.Models.ApplyForJobs
+
+@{
+    ViewBag.Title = "Apply For The Job";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@if (TempData["SM"] != null)
+{
+    <div class="alert alert-danger">@TempData["SM"]</div>
+}
+@using (Html.BeginForm("ApplyForJobs", "Jobs", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.JobMessage, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.JobMessage, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.JobMessage, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Apply" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+

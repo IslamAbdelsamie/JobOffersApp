@@ -1,0 +1,64 @@
+﻿@model JobOffersApp.Models.Specialization
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("Edit", "Specialization", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SpecializationName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SpecializationName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SpecializationName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SpecializationImage, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="ImageFile" id="ImageFile" />
+                @Html.ValidationMessageFor(model => model.SpecializationImage, "", new { @class = "text-danger" })
+                <p class="text-danger" id="error">The extension of the file is wrong</p>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" id="save"/>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#error").fadeOut();
+        $(function () {
+            $("#save").click(function () {
+                var fileName = document.getElementById("ImageFile").value;
+                var extension = fileName.substr(fileName.lastIndexOf('.') + 1);
+                var ValidExtension = ['jpg', 'png'];
+                if ($.inArray(extension, ValidExtension) == -1) {
+                    $("#error").fadeIn();
+                    return false;
+                }
+            });
+        });
+    });
+</script>

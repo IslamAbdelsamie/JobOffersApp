@@ -1,0 +1,100 @@
+﻿@model JobOffersApp.ViewModels.ListJobsViewModel
+
+@{
+    ViewBag.Title = "Applied Jobs";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@if (TempData["SM"] != null)
+{
+    <div class="alert alert-success">@TempData["SM"]</div>
+}
+
+@if (!Model.applyForJobs.Any())
+{
+    <h1 class="text-center">You did not apply in any jobs</h1>
+}
+else
+{
+
+
+<table class="table">
+    <tr>
+        <th>
+            Job Name
+        </th>
+        <th>
+            Job Description
+        </th>
+        <th>
+            Job Image
+        </th>
+        <th>
+            Category
+        </th>
+        <th>
+            Specialization
+        </th>
+        <th>
+            Message
+        </th>
+        <th>
+            Publish Date
+        </th>
+        <th>
+            Apply Date
+        </th>
+        <th>Edit/Delete</th>
+    </tr>
+
+@foreach (var item in Model.applyForJobs)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Jobs.JobName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Jobs.JobDescription)
+        </td>
+        <td>
+            <img src="@Url.Content(item.Jobs.JobImage)" width="50" height="50" />
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Jobs.Categories.CategoryName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Jobs.Specialization.SpecializationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JobMessage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Jobs.PublishDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AppliedDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "delete" })
+        </td>
+    </tr>
+}
+
+</table>
+}
+<script src="~/js/vendor/jquery-2.2.4.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $(function () {
+            $(".delete").click(function () {
+                if (!confirm("Are you sure you want to delete this job?")) {
+                    return false;
+                }
+            });
+        });
+
+    });
+</script>
+
